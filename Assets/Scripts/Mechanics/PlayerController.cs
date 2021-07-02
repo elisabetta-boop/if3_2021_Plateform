@@ -5,6 +5,7 @@ using Platformer.Gameplay;
 using static Platformer.Core.Simulation;
 using Platformer.Model;
 using Platformer.Core;
+using UnityEngine.Events;
 
 namespace Platformer.Mechanics
 {
@@ -17,6 +18,8 @@ namespace Platformer.Mechanics
         public AudioClip jumpAudio;
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
+        public UnityEvent onJump;
+        //public int wtf;
 
         /// <summary>
         /// Max horizontal speed of the player.
@@ -57,7 +60,11 @@ namespace Platformer.Mechanics
             {
                 move.x = Input.GetAxis("Horizontal");
                 if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
+                {   
                     jumpState = JumpState.PrepareToJump;
+                    onJump.Invoke();
+
+                 }
                 else if (Input.GetButtonUp("Jump"))
                 {
                     stopJump = true;
